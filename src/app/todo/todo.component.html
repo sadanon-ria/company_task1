@@ -1,0 +1,23 @@
+<p>todo works!</p>
+<div>
+    <input [(ngModel)]="newTask" placeholder="Add a new task" />
+    <button (click)="addTask()">Add</button>
+</div>
+
+<ul>
+    <li *ngFor="let task of todoService.tasks; let i = index">
+        <input type="checkbox" (checked)="task.completed" (change)="updateTaskStatus(i)"/>
+
+        <span *ngIf="editingIndex !== i" [class.completed]="task.completed">
+            {{ task.name }}
+        </span>
+
+        <input *ngIf="editingIndex === i" [(ngModel)]="editedTaskName" />
+
+        <button *ngIf="editingIndex !== i" (click)="startEditing(i, task.name)">Edit</button>
+        <button *ngIf="editingIndex === i" (click)="saveTask(i)">Save</button>
+        <button *ngIf="editingIndex === i" (click)="cancelEditing()">Cancel</button>
+
+        <button (click)="todoService.removeTask(i)">Delete</button>
+    </li>
+</ul>
